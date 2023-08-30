@@ -11,10 +11,10 @@ import powerPointIcon from '../../assets/icons/icons8-microsoft-powerpoint-48.pn
 import sqlServerIcon from '../../assets/icons/icons8-sql-server-64.png';
 import mySqlIcon from '../../assets/icons/icons8-mysql-64.png';
 import serverWinIcon from '../../assets/icons/icons8-server-windows-50.png';
-import vbIcon from '../../assets/icons/icons8-vb-16.png';
+import vbIcon from '../../assets/icons/icons8-vb-64.png';
 import visualStudioIcon1 from '../../assets/icons/icons8-visual-studio-48.png';
 import visualStudioIcon2 from '../../assets/icons/icons8-visual-studio-50.png';
-
+import msExcelIcon from '../../assets/icons/icons8-ms-excel-48.png';
 
 function CandidatePanel() {
   const [candidates, setCandidates] = useState([]);
@@ -47,6 +47,8 @@ function CandidatePanel() {
             return sqlServerIcon;
         case 'MySQL':
             return mySqlIcon;
+        case 'Microsoft Excel':
+            return msExcelIcon;
         default:
           return null;
       }
@@ -64,7 +66,7 @@ function CandidatePanel() {
     fetchCandidates();
   }, []);
 
-  console.log("cassac", candidates);
+  console.log("candidates", candidates);
 
   return (
     <div className="candidateContainer">
@@ -79,9 +81,9 @@ function CandidatePanel() {
             <p>{candidate.postCode}</p>
             
 
-            <p>{candidate.phoneHome}</p>
-            <p>{candidate.phoneMobile}</p>
-            <p>{candidate.phoneWork}</p>
+            <p>Home: {candidate.phoneHome}</p>
+            <p>Mobile: {candidate.phoneMobile}</p>
+            <p>Work: {candidate.phoneWork}</p>
             
             <div className='skillContainer'>
                 {candidate.skills.map((skill) => (
