@@ -5,19 +5,22 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
 
 import Home from './pages/Home/Home';
 
 
 function App() {
   return (
+    <ChakraProvider>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Home />} />
+        </Routes>
 
-    <Router>
-      <Routes>
-        <Route path='/' element={<Home />} />
-      </Routes>
+      </Router>
+    </ChakraProvider>
 
-    </Router>
   );
 }
 
