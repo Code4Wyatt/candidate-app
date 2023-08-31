@@ -1,5 +1,6 @@
 import "./style.scss";
 import { useEffect, useState } from "react";
+import { Audio } from 'react-loader-spinner'
 
 import wordIcon from '../../assets/icons/icons8-microsoft-word-48.png';
 import cSharpIcon from '../../assets/icons/icons8-c-sharp-64.png';
@@ -16,8 +17,9 @@ import visualStudioIcon1 from '../../assets/icons/icons8-visual-studio-48.png';
 import visualStudioIcon2 from '../../assets/icons/icons8-visual-studio-50.png';
 import msExcelIcon from '../../assets/icons/icons8-ms-excel-48.png';
 
-function CandidatePanel() {
+function CandidatePanel({setCandidate}) {
   const [candidates, setCandidates] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getSkillIcon = (skillName) => {
     switch (skillName) {
@@ -55,11 +57,13 @@ function CandidatePanel() {
   };
 
   const fetchCandidates = async () => {
+    setIsLoading(true);
     let response = await fetch("https://localhost:7123/api/candidates");
     let data = await response.json();
 
     console.log(data);
     setCandidates(data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -70,9 +74,19 @@ function CandidatePanel() {
 
   return (
     <div className="candidateContainer">
-      {candidates ? (
+      {isLoading ? (
+        <Audio
+        height="80"
+        width="80"
+        radius="9"
+        color="green"
+        ariaLabel="loading"
+        wrapperStyle
+        wrapperClass
+      />
+      ) : candidates.length > 0 ? (
         candidates.map((candidate, index) => (
-          <div key={index} className="candidateCard">
+          <div key={index} className="candidateCard" onClick={() => setCandidate(candidate)}>
             <p>{candidate.firstName} {candidate.surname}</p>
             
             <p>{candidate.address1}</p>
