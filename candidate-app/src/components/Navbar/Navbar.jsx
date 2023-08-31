@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './style.scss';
 
-function Navbar() {
+function Navbar({ setView }) {
+  
   return (
     <div className='nav'>
         <p>Candidate Portal</p>
 
-        <div>
-            <p>Candidates</p>
+        <div onClick={() => setView('addCandidate')}>
+            <p>Add Candidate</p>
+        </div>
+        <div onClick={() => setView('candidatePanel')}>
+            <p>View Candidates</p>
         </div>
     </div>
   )

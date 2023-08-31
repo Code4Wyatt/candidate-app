@@ -1,7 +1,9 @@
 .candidateInfoContainer {
   position: relative;
   left: 25%;
-
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
   form {
     display: flex;
     flex-direction: column;
@@ -22,10 +24,6 @@
       border-radius: 4px;
       width: 400px;
     }
-  }
-
-  .buttonContainer {
- 
   }
 
   button:nth-of-type(1) {

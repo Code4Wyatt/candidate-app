@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./style.scss";
 
-function CandidateInfo({ candidate, setCandidate, setResponseStatus }) {
+function AddCandidate({ candidate, setCandidate, setResponseStatus }) {
     const [enteredSkillId, setEnteredSkillId] = useState('');
     const { register, handleSubmit, control, setValue } = useForm({
         defaultValues: candidate,
@@ -13,15 +13,16 @@ function CandidateInfo({ candidate, setCandidate, setResponseStatus }) {
     const { register: registerSkill, handleSubmit: handleSubmitSkill } =
         useForm();
 
-    const updateCandidate = async (data) => {
+    const addCandidate = async (data) => {
+        console.log('addCandidate', data);
+        
         let response = await fetch(
-            `https://localhost:7123/api/candidates/${candidate.id}`,
+            `https://localhost:7123/api/candidates?FirstName=${data.firstName}&surname=${data.surname}&dateOfBirth=${data.dateOfBirth}&Address1=${data.address1}&Town=${data.town}&Country=${data.country}&PostCode=${data.postCode}&PhoneHome=${data.phoneHome}&PhoneMobile=${data.phoneMobile}&PhoneWork=${data.phoneWork}`,
             {
-                method: "PUT",
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
+                }
             }
         );
 
@@ -30,9 +31,7 @@ function CandidateInfo({ candidate, setCandidate, setResponseStatus }) {
 
     const addSkill = async (skillData) => {
         skillData.CandidateID = candidate.id;
-        skillData.SkillId = parseInt(skillData.SkillId, 10);
-
-        console.log("addSkill skillData", skillData);
+        console.log("addSkill skillData", skillData.CandidateID);
         let response = await fetch("https://localhost:7123/api/candidateSkills", {
             method: "POST",
             headers: {
@@ -40,38 +39,24 @@ function CandidateInfo({ candidate, setCandidate, setResponseStatus }) {
             },
             body: JSON.stringify(skillData),
         });
-
-        return response.status;
-    };
-
-    const deleteSkill = async (skillData) => {
-        skillData.CandidateID = candidate.id;
-        let skillId = Number(skillData.SkillId);
-        skillData.SkillId = skillId;
-        console.log('deleteSkill skillData', skillData);
-        let response = await fetch(
-            `https://localhost:7123/api/candidateSkills/${candidate.id}/${enteredSkillId}`, {
-            method: 'DELETE'
-        });
-        console.log(response)
+        console.log();
         return response.status;
     };
 
     const onSubmit = async (data) => {
         console.log(data);
-        const status = await updateCandidate(data);
+        const status = await addCandidate(data);
         setResponseStatus(status);
 
         if (status === 200) {
-            toast.success("Candidate updated successfully!");
+            toast.success("Candidate added successfully!");
             setCandidate(null);
         } else {
-            toast.error("Candidate update was not successful.");
+            toast.error("Candidate could not be added, please check you've filled in all of the fields.");
         }
     };
 
     const onSubmitSkill = async (data) => {
-        console.log(data);
         const status = await addSkill(data);
 
         if (status === 200) {
@@ -82,24 +67,6 @@ function CandidateInfo({ candidate, setCandidate, setResponseStatus }) {
             );
         }
     };
-
-    const onDeleteSkill = async (enteredSkillId) => {
-        const status = await deleteSkill({ CandidateID: candidate.id, SkillId: enteredSkillId });
-
-        if (status === 200) {
-            toast.success("Skill deleted successfully!");
-        } else {
-            toast.success("Skill could not be deleted.");
-        }
-    };
-
-    useEffect(() => {
-        if (candidate) {
-            for (const [key, value] of Object.entries(candidate)) {
-                setValue(key, value);
-            }
-        }
-    }, [candidate, setValue]);
 
     console.log("CandidateInfo candidate", candidate);
 
@@ -127,6 +94,10 @@ function CandidateInfo({ candidate, setCandidate, setResponseStatus }) {
                     <input {...register("town")} />
                 </label>
                 <label>
+                    Country
+                    <input {...register("country")} />
+                </label>
+                <label>
                     Postcode
                     <input {...register("postCode")} />
                 </label>
@@ -151,26 +122,16 @@ function CandidateInfo({ candidate, setCandidate, setResponseStatus }) {
 
             <form onSubmit={handleSubmitSkill(onSubmitSkill)}>
                 <label>
-                    CandidateID
-                    <input {...registerSkill("CandidateID")} />
-                </label>
-                <label>
                     Skill ID
                     <input {...registerSkill("SkillId")}  onChange={(e) => setEnteredSkillId(e.target.value)} />
                 </label>
 
                 <div>
                     <button type="submit">Add Skill</button>
-                    <button
-                        type="button"
-                        onClick={() => onDeleteSkill(enteredSkillId)}
-                    >
-                        Delete Skill
-                    </button>
                 </div>
             </form>
         </div>
     );
 }
 
-export default CandidateInfo;
+export default AddCandidate;
