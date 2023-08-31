@@ -119,16 +119,6 @@ function AddCandidate({ candidate, setCandidate, setResponseStatus }) {
                 </div>
             </form>
 
-            <form onSubmit={handleSubmitSkill(onSubmitSkill)}>
-                <label>
-                    Skill ID
-                    <input {...registerSkill("SkillId")}  onChange={(e) => setEnteredSkillId(e.target.value)} />
-                </label>
-
-                <div>
-                    <button type="submit">Add Skill</button>
-                </div>
-            </form>
         </div>
     );
 }
