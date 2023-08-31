@@ -115,7 +115,6 @@ function AddCandidate({ candidate, setCandidate, setResponseStatus }) {
                 </label>
 
                 <div>
-                    <button onClick={() => setCandidate(null)}>Go Back</button>
                     <button type="submit">Submit</button>
                 </div>
             </form>
