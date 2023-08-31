@@ -10,9 +10,6 @@ function AddCandidate({ candidate, setCandidate, setResponseStatus }) {
         defaultValues: candidate,
     });
 
-    const { register: registerSkill, handleSubmit: handleSubmitSkill } =
-        useForm();
-
     const addCandidate = async (data) => {
         console.log('addCandidate', data);
         
