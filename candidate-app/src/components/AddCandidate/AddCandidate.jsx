@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./style.scss";
 
 function AddCandidate({ candidate, setCandidate, setResponseStatus }) {
-    const [enteredSkillId, setEnteredSkillId] = useState('');
     const { register, handleSubmit, control, setValue } = useForm({
         defaultValues: candidate,
     });
@@ -28,7 +27,7 @@ function AddCandidate({ candidate, setCandidate, setResponseStatus }) {
 
     const addSkill = async (skillData) => {
         skillData.CandidateID = candidate.id;
-        console.log("addSkill skillData", skillData.CandidateID);
+
         let response = await fetch("https://localhost:7123/api/candidateSkills", {
             method: "POST",
             headers: {
@@ -36,7 +35,7 @@ function AddCandidate({ candidate, setCandidate, setResponseStatus }) {
             },
             body: JSON.stringify(skillData),
         });
-        console.log();
+
         return response.status;
     };
 
@@ -64,8 +63,6 @@ function AddCandidate({ candidate, setCandidate, setResponseStatus }) {
             );
         }
     };
-
-    console.log("CandidateInfo candidate", candidate);
 
     return (
         <div className="candidateInfoContainer">
