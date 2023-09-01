@@ -151,10 +151,6 @@ function CandidateInfo({ candidate, setCandidate, setResponseStatus }) {
 
             <form onSubmit={handleSubmitSkill(onSubmitSkill)}>
                 <label>
-                    CandidateID
-                    <input {...registerSkill("CandidateID")} />
-                </label>
-                <label>
                     Skill ID
                     <input {...registerSkill("SkillId")}  onChange={(e) => setEnteredSkillId(e.target.value)} />
                 </label>
